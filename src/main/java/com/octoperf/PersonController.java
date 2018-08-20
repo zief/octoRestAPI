@@ -13,6 +13,9 @@ import lombok.experimental.FieldDefaults;
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
+import java.beans.ConstructorProperties;
+
+
 @RestController
 @RequestMapping("/person")
 @AllArgsConstructor(access = PACKAGE )
@@ -30,5 +33,17 @@ public class PersonController {
 	public String postHello(@RequestBody final Person person) {
 	  return persons.hello(person);
 	}
+	
 
+	@ConstructorProperties({"persons"})
+	PersonController(@NonNull PersonService persons) {
+		if (persons == null) {
+			throw new NullPointerException("persons");
+		} else {
+			this.persons = persons;
+		}
+	}
+
+	
+	
 }
