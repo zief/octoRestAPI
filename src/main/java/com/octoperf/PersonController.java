@@ -6,21 +6,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
+
+import static lombok.AccessLevel.PACKAGE;
+import static lombok.AccessLevel.PRIVATE;
+
 @RestController
 @RequestMapping("/person")
+@AllArgsConstructor(access = PACKAGE )
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class PersonController {
+	@NonNull
+	PersonService persons;
 	
-	@GetMapping("/hello")
+	@GetMapping("/johnsmith")
 	  public Person hello() {
-	    final Person person = new Person();
-	    person.setFirstname("John");
-	    person.setLastname("Smith");
-	    return person;
+	       return persons.johnSmith();
 	  }
 	
 	@PostMapping("/hello")
 	public String postHello(@RequestBody final Person person) {
-	  return "Hello " + person.getFirstname() + " " + person.getLastname() + "!";
+	  return persons.hello(person);
 	}
 
 }
